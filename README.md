@@ -324,12 +324,8 @@ The project uses GitHub Actions for continuous integration:
 
 Workflow triggers on:
 
-- Push to main/master branch
-- Pull requests to main/master branch
-
-## License
-
-This project is licensed under the MIT License.
+- Push to main branch
+- Pull requests to main branch
 
 ## Support
 
