@@ -2,6 +2,8 @@
 
 A production-quality Wordle-style word guessing game built with Django 5.x, featuring user authentication, daily game limits, and comprehensive admin reporting.
 
+**Deployed**: https://chiranthrajuc.pythonanywhere.com/
+
 ## Features
 
 - **User Authentication**: Secure registration and login with custom validation rules
