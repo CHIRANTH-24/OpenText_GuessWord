@@ -1,0 +1,46 @@
+{% load static %}
+
+<div id="board">
+    <div class="board-grid">
+        {% for guess in guess_data %}
+            <div class="board-row">
+                {% for letter, color in guess.colors %}
+                    <div class="cell {{ color }}">{{ letter }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        {% for i in remaining_rows|default:0|make_list %}
+            <div class="board-row">
+                <div class="cell empty"></div>
+                <div class="cell empty"></div>
+                <div class="cell empty"></div>
+                <div class="cell empty"></div>
+                <div class="cell empty"></div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if form %}
+        <div class="guess-form">
+            <form hx-post="{% url 'submit_guess' game.id %}" 
+                  hx-target="#board-container" 
+                  hx-swap="innerHTML">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.guess }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Guess</button>
+            </form>
+        </div>
+    {% elif game.is_finished %}
+        <div class="game-finished">
+            {% if game.won %}
+                <p class="win-message">🎉 Congratulations! You won!</p>
+            {% else %}
+                <p class="lose-message">Better luck next time! The word was: <strong>{{ game.target_word.text }}</strong></p>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Game #{{ game.id }} - Guess The Word{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    <div class="game-header">
+        <h2>Game #{{ game.id }}</h2>
+        {% if not game.is_finished %}
+            <p class="guesses-info">Guesses remaining: <strong>{{ guesses_remaining }}</strong>/5</p>
+        {% endif %}
+    </div>
+
+    <div id="board-container">
+        {% include "game/_board_partial.html" %}
+    </div>
+
+    <div class="game-actions">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+{% endblock %}
+

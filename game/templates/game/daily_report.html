@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Daily Report - Guess The Word{% endblock %}
+
+{% block content %}
+<div class="report-container">
+    <h2>Daily Report</h2>
+
+    <form method="get" class="report-form">
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <input type="date" name="date" id="date" value="{{ report_date|date:'Y-m-d' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">View Report</button>
+        <button type="submit" name="export" value="csv" class="btn btn-secondary">Export CSV</button>
+    </form>
+
+    <div class="report-stats">
+        <h3>Statistics for {{ report_date|date:"F d, Y" }}</h3>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Distinct Users</h4>
+                <p class="stat-number">{{ distinct_users }}</p>
+            </div>
+            
+            <div class="stat-card">
+                <h4>Total Games</h4>
+                <p class="stat-number">{{ total_games }}</p>
+            </div>
+            
+            <div class="stat-card">
+                <h4>Games Won</h4>
+                <p class="stat-number">{{ won_games }}</p>
+            </div>
+            
+            <div class="stat-card">
+                <h4>Win Rate</h4>
+                <p class="stat-number">
+                    {% if total_games > 0 %}
+                        {{ won_games|floatformat:0|add:"0" }}
+                        /
+                        {{ total_games }}
+                        ({% widthratio won_games total_games 100 %}%)
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-links">
+        <a href="{% url 'user_report' %}" class="btn btn-secondary">User Report</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+    </div>
+</div>
+{% endblock %}
+

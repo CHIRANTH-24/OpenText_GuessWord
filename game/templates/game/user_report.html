@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}User Report - Guess The Word{% endblock %}
+
+{% block content %}
+<div class="report-container">
+    <h2>Per-User Report</h2>
+
+    {% if not report_user %}
+        <form method="get" class="report-form">
+            <div class="form-group">
+                <label for="username">Select User:</label>
+                <select name="username" id="username" required>
+                    <option value="">-- Choose a user --</option>
+                    {% for user in users %}
+                        <option value="{{ user.username }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">View Report</button>
+        </form>
+    {% else %}
+        <div class="user-report-header">
+            <h3>Report for: {{ report_user.username }}</h3>
+            <a href="?username={{ report_user.username }}&export=csv" class="btn btn-secondary">Export CSV</a>
+        </div>
+
+        {% if games_by_date %}
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Words Tried</th>
+                        <th>Correct Guesses</th>
+                        <th>Success Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in games_by_date %}
+                        <tr>
+                            <td>{{ entry.date }}</td>
+                            <td>{{ entry.words_tried }}</td>
+                            <td>{{ entry.correct_guesses }}</td>
+                            <td>
+                                {% widthratio entry.correct_guesses entry.words_tried 100 %}%
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No game data found for this user.</p>
+        {% endif %}
+
+        <div class="report-links">
+            <a href="{% url 'user_report' %}" class="btn btn-secondary">Select Another User</a>
+        </div>
+    {% endif %}
+
+    <div class="report-links">
+        <a href="{% url 'daily_report' %}" class="btn btn-secondary">Daily Report</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
+    </div>
+</div>
+{% endblock %}
+
