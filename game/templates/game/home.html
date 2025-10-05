@@ -1,87 +1,102 @@
-{% extends "base.html" %}
-
-{% block title %}Home - Guess The Word{% endblock %}
-
+{% extends "base.html" %} {% block title %}Home - Guess The Word{% endblock %}
 {% block content %}
-<div class="home-container">
+<section class="home-hero">
+  <div class="container">
+    <h2>Guess The Word</h2>
+    <p class="muted">
+      A fast, elegant Wordle-style game. Five letters. Five tries. Pure fun.
+    </p>
+    <div class="cta-buttons">
+      {% if user.is_authenticated %} {% if active_game %}
+      <a
+        href="{% url 'game_detail' active_game.id %}"
+        class="btn btn-primary btn-large"
+        >Continue Game</a
+      >
+      {% else %}
+      <form method="post" action="{% url 'start_game' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-large">
+          Start New Game
+        </button>
+      </form>
+      {% endif %} {% else %}
+      <a href="{% url 'signup' %}" class="btn btn-primary btn-large"
+        >Play Now</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="home-sections">
+  <div class="container">
     {% if user.is_authenticated %}
-        <h2>Welcome back, {{ user.username }}!</h2>
-        
-        <div class="stats-card">
-            <h3>Today's Stats</h3>
-            <p><strong>Games played:</strong> {{ games_played_today }}/3</p>
-            <p><strong>Games remaining:</strong> {{ games_remaining }}</p>
-        </div>
-
-        {% if active_game %}
-            <div class="action-card">
-                <h3>You have an active game!</h3>
-                <p>Continue your current game before starting a new one.</p>
-                <a href="{% url 'game_detail' active_game.id %}" class="btn btn-primary">
-                    Continue Game
-                </a>
-            </div>
-        {% elif games_remaining > 0 %}
-            <div class="action-card">
-                <h3>Ready to play?</h3>
-                <p>Try to guess the 5-letter word in 5 attempts or less!</p>
-                <form method="post" action="{% url 'start_game' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-large">
-                        Start New Game
-                    </button>
-                </form>
-            </div>
-        {% else %}
-            <div class="action-card">
-                <h3>Daily Limit Reached</h3>
-                <p>You've played all 3 games for today. Come back tomorrow for more!</p>
-            </div>
-        {% endif %}
-
-        <div class="how-to-play">
-            <h3>How to Play</h3>
-            <ul>
-                <li>Guess the 5-letter word in 5 tries</li>
-                <li>Each guess must be a valid 5-letter word</li>
-                <li>After each guess, the color of the tiles will change:</li>
-            </ul>
-            <div class="color-legend">
-                <div class="legend-item">
-                    <span class="cell green">A</span>
-                    <span>Letter is correct and in the right position</span>
-                </div>
-                <div class="legend-item">
-                    <span class="cell orange">B</span>
-                    <span>Letter is correct but in the wrong position</span>
-                </div>
-                <div class="legend-item">
-                    <span class="cell grey">C</span>
-                    <span>Letter is not in the word</span>
-                </div>
-            </div>
-        </div>
-    {% else %}
-        <div class="welcome-container">
-            <h2>Welcome to Guess The Word!</h2>
-            <p>A Wordle-style word guessing game. Test your vocabulary and logic skills!</p>
-            
-            <div class="cta-buttons">
-                <a href="{% url 'signup' %}" class="btn btn-primary btn-large">Sign Up to Play</a>
-                <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
-            </div>
-
-            <div class="how-to-play">
-                <h3>How to Play</h3>
-                <ul>
-                    <li>Guess the 5-letter word in 5 tries</li>
-                    <li>Play up to 3 games per day</li>
-                    <li>Get color-coded feedback after each guess</li>
-                    <li>Track your progress over time</li>
-                </ul>
-            </div>
-        </div>
+    <div class="section">
+      <div class="stats-card">
+        <h3>Today's Stats</h3>
+        <p><strong>Games played:</strong> {{ games_played_today }}/3</p>
+        <p><strong>Games remaining:</strong> {{ games_remaining }}</p>
+      </div>
+    </div>
     {% endif %}
-</div>
-{% endblock %}
 
+    <div class="section">
+      <h3>Why You'll Love It</h3>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Lightning-Fast</h4>
+          <p>Minimalist UI for instant play with zero distractions.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Daily Challenge</h4>
+          <p>Three games a day. Come back tomorrow for more.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Smart Feedback</h4>
+          <p>Clear color cues help you zero in on the answer.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Mobile Friendly</h4>
+          <p>Play anywhere with a clean, responsive layout.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>How to Play</h3>
+      <div class="how-to-play">
+        <ul>
+          <li>Guess the 5-letter word in 5 tries.</li>
+          <li>Each guess must be a valid 5-letter word.</li>
+          <li>
+            The color of the tiles will change to show how close your guess was:
+          </li>
+        </ul>
+        <div class="color-legend">
+          <div class="legend-item">
+            <span class="cell green">A</span>
+            <span>Correct letter in the correct spot.</span>
+          </div>
+          <div class="legend-item">
+            <span class="cell orange">B</span>
+            <span>Correct letter in the wrong spot.</span>
+          </div>
+          <div class="legend-item">
+            <span class="cell grey">C</span>
+            <span>Letter not in the word.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if not user.is_authenticated %}
+    <div class="section" style="text-align: center">
+      <a href="{% url 'signup' %}" class="btn btn-primary btn-large"
+        >Start Playing Now</a
+      >
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
