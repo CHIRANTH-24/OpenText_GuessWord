@@ -1,0 +1,61 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Messages */
+.messages {
+  margin-bottom: 1rem;
+}
+.message {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+.message-success {
+  background-color: #1f3b1f;
+  border: 1px solid #2f6e2f;
+  color: #c7f7c7;
+}
+.message-error {
+  background-color: #3b1f1f;
+  border: 1px solid #6e2f2f;
+  color: #f7c7c7;
+}
+.message-info {
+  background-color: #1f2f3b;
+  border: 1px solid #2f4f6e;
+  color: #c7e7f7;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+}

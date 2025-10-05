@@ -1,0 +1,28 @@
+/* Dark theme: black + orange */
+
+body {
+  background-color: #0a0a0a;
+  color: #e6e6e6;
+}
+
+/* Accent color */
+:root {
+  --accent: #ff8c00;
+  --accent-2: #ffcc80;
+}
+
+/* Links */
+a {
+  color: var(--accent);
+}
+a:hover {
+  color: #ff9800;
+}
+
+/* Utility */
+.muted {
+  color: #bbb;
+}
+.accent {
+  color: var(--accent);
+}
