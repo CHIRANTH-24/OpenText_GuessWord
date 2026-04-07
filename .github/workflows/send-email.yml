@@ -1,0 +1,30 @@
+name: Send Email on Push
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "New push to ${{ github.repository }}"
+          to: ${{ secrets.MAIL_RECIPIENT }}
+          from: ${{ secrets.MAIL_USERNAME }}
+          body: |
+            A new push was made to ${{ github.repository }}.
+
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+            Message: ${{ github.event.head_commit.message }}
+
+            View the commit: ${{ github.event.head_commit.url }}
